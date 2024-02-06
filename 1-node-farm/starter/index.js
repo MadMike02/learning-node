@@ -1,5 +1,7 @@
 // const fs = require('fs');
 const http = require('http');
+const path = require('path');
+const url = require('url');
 
 /////////////////////////////////////////////////////
 //FILES
@@ -36,7 +38,18 @@ const http = require('http');
 //callback executed each time when a request is comes
 const server = http.createServer((req, res) => {
     //sending request
-    res.end('Hello from the server');
+
+    const pathName = req.url
+    if (pathName === '/' || pathName === '/overview') {
+        res.end("this is overview!")
+    } else if (pathName === '/product') {
+        res.end("this is product");
+    } else {
+        res.writeHead(404, {
+            'Content-type': 'text/html'
+        });
+        res.end("<h2>Page not found !</h2>");
+    }
 })
 
 server.listen(8000, '127.0.0.1', () => {
