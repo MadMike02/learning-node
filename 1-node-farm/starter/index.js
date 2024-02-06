@@ -3,6 +3,8 @@ const http = require('http');
 const path = require('path');
 const url = require('url');
 
+const slugify = require('slugify');
+
 const replaceTemplate = require('./modules/replaceTemplate');
 /////////////////////////////////////////////////////
 //FILES
@@ -44,6 +46,11 @@ const templateProduct = fs.readFileSync(`${__dirname}/templates/template-product
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data)
 //callback executed each time when a request is comes
+
+//using third party package
+// const slugs = dataObj.map( el => slugify(el.productName, {lower : true}))
+// console.log(slugs)
+
 const server = http.createServer((req, res) => {
     //sending request
     const {query, pathname} =  url.parse(req.url, true)
