@@ -1,4 +1,4 @@
-// const fs = require('fs');
+const fs = require('fs');
 const http = require('http');
 const path = require('path');
 const url = require('url');
@@ -35,6 +35,8 @@ const url = require('url');
 ////////////////////////////////////////////////////////
 //SERVER
 
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data)
 //callback executed each time when a request is comes
 const server = http.createServer((req, res) => {
     //sending request
@@ -44,7 +46,13 @@ const server = http.createServer((req, res) => {
         res.end("this is overview!")
     } else if (pathName === '/product') {
         res.end("this is product");
-    } else {
+    } else if (pathName === '/api') {
+        res.writeHead(200, {
+            'Content-type': 'application/json'
+        });
+        res.end(data);
+    } 
+    else {
         res.writeHead(404, {
             'Content-type': 'text/html'
         });
