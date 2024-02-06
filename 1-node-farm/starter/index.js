@@ -1,4 +1,8 @@
-const fs = require('fs');
+// const fs = require('fs');
+const http = require('http');
+
+/////////////////////////////////////////////////////
+//FILES
 
 // BLOCKING SYNCHRONOUS
 
@@ -13,15 +17,28 @@ const fs = require('fs');
 
 //Non BLocking asynchronous
 // callback hell
-fs.readFile("./txt/start.txt", "utf-8", (err1, data1) => {
-    if (err1) return console.log("ERROR!:", err1)
+// fs.readFile("./txt/start.txt", "utf-8", (err1, data1) => {
+//     if (err1) return console.log("ERROR!:", err1)
 
-    fs.readFile(`./txt/${data1}.txt`, "utf-8", (err2, data2) => {
-        fs.readFile(`./txt/append.txt`, "utf-8", (err2, data3) => {
-            fs.writeFile("./txt/final.txt", `${data2}\n${data3}`, "utf-8", err => {
-                console.log("file is written")
-            })
-        })
-    })
+//     fs.readFile(`./txt/${data1}.txt`, "utf-8", (err2, data2) => {
+//         fs.readFile(`./txt/append.txt`, "utf-8", (err2, data3) => {
+//             fs.writeFile("./txt/final.txt", `${data2}\n${data3}`, "utf-8", err => {
+//                 console.log("file is written")
+//             })
+//         })
+//     })
+// })
+// console.log("reading file")
+
+////////////////////////////////////////////////////////
+//SERVER
+
+//callback executed each time when a request is comes
+const server = http.createServer((req, res) => {
+    //sending request
+    res.end('Hello from the server');
 })
-console.log("reading file")
+
+server.listen(8000, '127.0.0.1', () => {
+    console.log("server is started")
+})
