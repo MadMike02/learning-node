@@ -25,10 +25,19 @@ const getDocPic = async () => {
   //autmatically gets data if there will be data
   try {
     const data = await readFilePro(`${__dirname}/dog.txt`);
-    const res = await superagent.get(
+    const res1Pro = superagent.get(
       `https://dog.ceo/api/breed/${data}/images/random`
     );
-    await writeFilePro("dog-img.txt", res.body.message);
+    const res2Pro = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+    const res3Pro = superagent.get(
+      `https://dog.ceo/api/breed/${data}/images/random`
+    );
+
+    const all = await Promise.all([res1Pro, res2Pro, res3Pro]);
+    const images = all.map((el) => el.body.message);
+    await writeFilePro("dog-img.txt", images.join("\n"));
     console.log("image saved to file");
   } catch (err) {
     console.log("err", err);
