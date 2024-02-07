@@ -130,3 +130,16 @@ Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached
   - instead of promise chaining we can use async & await.
   - the await keyword wait for the promise to return a result i.e. resolved and then gives the output
   - wrap the whole await in the try catch to make it non blocking and get the error in the catch block when promise fails.
+
+## REST APIs
+
+- `API` - Application Programming Interface: a piece of software that can be used by another piece of software, in order to allow applications to talk to each other.
+
+- `Rest Architecture`
+  - Seprate API into logical resources
+  - Exporse structured, resource-based URLs
+  - User HTTP methods (verbs)
+    - don't use endpoint names as `createUser`, `getUser` instead `GET /users` and `POST /users` or `DELETE /users/2` or `PUT users/3`
+  - Send data as JSON (usually)
+  - Be stateless
+    All state is handled on the client. This means that each request cotain all the information necessary to process a certain request. The server should not have to remember previous requests.
