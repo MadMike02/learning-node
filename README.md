@@ -22,3 +22,38 @@ In Asunchronous operation the heavy operations will be done in the backend and b
 For preventing callback hell use `Promises` or `Async/Await`
 
 Arror functions will have the `this` from the parent while normal functions will have their own this keyword
+
+- versioning --- major/minor/patch 
+    - patch - bug fixes,
+    - minor - new features
+    - major - main changes that affects previous versions
+    - ~ - accepts fixes version when run npn update package
+    - ^ - accept minor fixes version when updated
+    - '*' - accepts all version when updated
+
+## HOW NODE JS WORKS
+- It is made up by many dependencies
+- main one are `v8 chrome js engine` and `libuv` library
+- `libuv` library provides the event loop, thread pool, asynchronout functioning to the node js
+
+## EVENT LOOP ORDER
+- It is basically for the execution of callbacks comming from methods that are stored in the callback queue.
+- Each event can have multiple callback queues.
+- The order for the working of node single thread sequences of instructions are as follows:
+    - Initailize program
+    - Execute "top-level" code
+    - Require modules
+    - Register event callbacks
+    - Start event loop
+- Event loop order are as follow:
+    - Expired timer callbacks
+    - I/O pooling and callbacks
+    - setImediate callbacks
+    - Close callbacks
+
+        - Process.nextTick() callback
+        - Other microtask callback (promises)
+         these two will be executed after an phase of above 4 stages as soon as the stage completes.
+
+## EVEN_DRIVEN ARCHITECTURE
+Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached callback function
