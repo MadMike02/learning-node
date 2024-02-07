@@ -143,3 +143,8 @@ Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached
   - Send data as JSON (usually)
   - Be stateless
     All state is handled on the client. This means that each request cotain all the information necessary to process a certain request. The server should not have to remember previous requests.
+
+### STATUS CODES
+
+200 - success
+201- created
