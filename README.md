@@ -57,3 +57,27 @@ Arror functions will have the `this` from the parent while normal functions will
 
 ## EVEN_DRIVEN ARCHITECTURE
 Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached callback function
+
+## STREAMS
+- Used to process (read and write) data piece by piece (chunks), without completing the whole read or write operation, and therefore without keeping all data in memory.
+- perfect for handling large volumes of data
+- more efficient data processing in terms of memory (no need to keep all data in memory) and time (we dont have to wait until all the data is available)
+- streams are instance of EventEmitter class
+- Readable streams
+    - streams from which we can read (consume) data
+    - example - http request, fs read streams
+    - importand events - data, end
+    - importand functions - pipe(), read()
+- Writable streams
+    - streams from which we can write data
+    - example - http response, fs write streams
+    - importand events - drain, finish
+    - importand functions - write(), end()
+- Duplex streams
+    - streams that are both readable and writable
+    - net websocket
+- Transform streams
+    - uplex streams that transform data as it is written or read
+    - zlip gzip creation
+
+- Back pressure when reading is faster than writting or response cannot send data faster as the data is comming faster
