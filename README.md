@@ -81,3 +81,30 @@ Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached
     - zlip gzip creation
 
 - Back pressure when reading is faster than writting or response cannot send data faster as the data is comming faster
+
+## MODULE SYSTEM
+- Each JS file treated as seprated module
+- Node.js uses commonJS module system: require(), exports or module.exports;
+- ES module system is used in browser: import/export;
+- THere have been attempts to bring ES modules to node.js (.mjs)
+
+- when require('test-module') runs
+    - `resolving and loading`
+        - Starts with core modules
+        - If path begins with './' or '../' then try to load developer module
+        - If no file found, try to find folder with index.js in it
+        - Else go to node_modules/ and try to find module there
+    - `wrapping`
+        - load the code of module and wrap in under IIFE function and give access of the variable to our code also i.e. wraps whole code in function
+        - (function(exports, require, module, __filename, __dirname){});
+        - each module have its private scope. i.e. the same name variable we are using will not get overwriten by modules vars.
+    - `execution`
+        - code runs in the module
+    - `returning exports`
+        - require function return exports of the required modules
+        - module.exports is the returned object
+        - use `module.exports` to export one single variable, class or function eg. module.exports = calculator
+        - use `exports` to export multiple named variable
+        (exports.add = (a,b) => a+b)
+    - `caching`
+        - cached the executed result
