@@ -3,6 +3,12 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+//middleware for specific params only
+router.param('id', (req, res, next, val) => {
+  console.log('tour id is', val);
+  next();
+});
+
 router
   .route('/')
   .get(userController.getAllUsers)
