@@ -66,13 +66,19 @@ const generalRequest = (req, res) => {
   });
 };
 
-app.get('/api/v1/tours', getAllTours);
-app.route('/api/v1/tours');
-//:id -- required param, :id? -- optinonal param
-app.get('/api/v1/tours/:id', getTour);
-app.post('/api/v1/tours', createTour);
-app.patch('/api/v1/tours/:id', generalRequest);
-app.delete('/api/v1/tours/:id', generalRequest);
+// app.get('/api/v1/tours', getAllTours);
+// //:id -- required param, :id? -- optinonal param
+// app.post('/api/v1/tours', createTour);
+// app.get('/api/v1/tours/:id', getTour);
+// app.patch('/api/v1/tours/:id', generalRequest);
+// app.delete('/api/v1/tours/:id', generalRequest);
+
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
+app
+  .route('/api/v1/tours/:id')
+  .get(getTour)
+  .patch(generalRequest)
+  .delete(generalRequest);
 
 const port = 3000;
 app.listen(port, () => {
