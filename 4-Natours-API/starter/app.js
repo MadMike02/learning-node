@@ -11,6 +11,9 @@ app.use(morgan('dev'));
 //middleware for adding request data in request body
 app.use(express.json());
 
+//static files
+app.use(express.static(`${__dirname}/public`));
+
 app.use((req, res, next) => {
   console.log('hello from middleware !');
   next();
