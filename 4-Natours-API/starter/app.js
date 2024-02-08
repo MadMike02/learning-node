@@ -5,6 +5,16 @@ const app = express();
 
 //middleware for adding request data in request body
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log('hello from middleware !');
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 // app.get('/', (req, res) => {
 //   //send string
 //   //   res.status(200).send('Hello from the server side');
