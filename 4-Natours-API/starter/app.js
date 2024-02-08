@@ -1,7 +1,11 @@
 const express = require('express');
 const fs = require('fs');
+const morgan = require('morgan');
 
 const app = express();
+
+//3rd party middleware
+app.use(morgan('dev'));
 
 //middleware for adding request data in request body
 app.use(express.json());
