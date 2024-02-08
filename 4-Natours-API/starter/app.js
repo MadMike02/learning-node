@@ -19,25 +19,24 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
     data: { tours },
   });
-});
+};
 
-//:id -- required param, :id? -- optinonal param
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTour = (req, res) => {
   const tour = tours.find((el) => el.id === req.params.id * 1);
 
   res.status(200).json({
     status: 'success',
     data: { tour },
   });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
   tours.push(newTour);
@@ -54,7 +53,26 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
+};
+
+const generalRequest = (req, res) => {
+  const tour = tours.find((el) => el.id === req.params.id * 1);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour,
+    },
+  });
+};
+
+app.get('/api/v1/tours', getAllTours);
+app.route('/api/v1/tours');
+//:id -- required param, :id? -- optinonal param
+app.get('/api/v1/tours/:id', getTour);
+app.post('/api/v1/tours', createTour);
+app.patch('/api/v1/tours/:id', generalRequest);
+app.delete('/api/v1/tours/:id', generalRequest);
 
 const port = 3000;
 app.listen(port, () => {
