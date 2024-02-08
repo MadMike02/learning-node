@@ -6,7 +6,9 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 //3rd party middleware
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 //middleware for adding request data in request body
 app.use(express.json());
