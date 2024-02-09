@@ -148,3 +148,54 @@ Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached
 
 200 - success
 201- created
+400 - user input error
+404- not found
+500- internal server error
+
+## MONGO DB
+
+### DOcument structure
+
+- BSON: Data format MongoDB users for data storage. Like JSON, but typed (i.e. have data typed). So MondoDB documents are typed.
+- Embedding/ Denormalizing: Including related data into a single document. This allows for quicker access and easier data modules (it;s not always the best solution though.)
+- Unline in Relational database the data is normalized i.e. is seprated in different tables.
+
+### BASIC COMMANDS
+
+`use databaseName` - switch or create new DB.
+`db.collectionName.insertOne({ name: "test1", price: 283, rating: 4.7})` - create a collection and insert data
+`db.collectionName.find()` -- give all documents
+`show dbs` - show all databases
+`show collections` - show collections
+
+### CREATING DOCUMENTS
+
+`db.collectionName.insertOne({ name: "test1", price: 283, rating: 4.7})`
+`db.collectonName.insertMany([{}, {}])`
+
+### READING DOCUMENTS
+
+- `db.collectionName.find()` -- all collecions
+- `db.collectionName.find({name: 'test' })` -- search by name field
+- `db.collectionName.find({price: {$lte: 500} })` -- query operators
+- `db.collectionName.find({price: {$lt: 500}, rating: {$gt: 4.8} })` -- And conditions
+- `db.collectionName.find( {$or: [ {price: {$lt: 500}}, {rating: {$gte: 4.8 } } ]} )` -- or conditions
+- `db.collectionName.find( {$or: [ {price: {$lt: 500}}, {rating: {$gte: 4.8 } } ]}, {name: 1} )` -- projection i.e only give name field in output
+
+### Updating documents
+
+- `db.collectionName.updateOne( {name: "test1"}, { $set: {price: 597} } )` --- search object by name and update price of that. If multiple records found then update first one.
+- `db.collectionName.updateMany( {price: {$gte: 500}, rating: {$gt: 4.8} }, {$set: {premium: true} } )` --- update all records
+
+### Delete documens
+
+- `db.collectionName.deleteMany( {rating: {$lt: 4.8}} )` --- delete all records acording to given condition
+- `db.collectionName.deleteMan({})` -- delete all collections
+
+## MONGOSSE
+
+- Mongoose is a Object Data Modeling(ODM) library for MongoDB and Node.js, a higher level of abstraction.
+- Mongoose allows for rapid and simple development of mongoDB database interacions;
+- Features: schemas to model data and relationships, easy data validation, simple query API, middleware ,etc;
+- `Mongoose schema` : Where we model our data, by describing the structure of the data, data values, and validation;
+- `Mongoose model` : a wrapper for the schema, providing an interface to the database for CRUD operations.
