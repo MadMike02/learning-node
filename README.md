@@ -202,14 +202,34 @@ Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached
 
 ### MONGOOSE MODEL
 
+https://mongoosejs.com/docs/queries.html
+
 ```
 const ModelName = mongoose.model('ModelName', schema)
 ```
 
 - `Inserting data`
   ```
-  const data = new ModelName({
+  const data = ModelName.create({
     name: ...
   })
-  data.save()
   ```
+- `Reading data`
+
+```
+ModelName.find({}) --- all
+ModelName.findById(id) --- by id
+ModelName.find({name: '...'}) -- by field
+```
+
+- `Updating Data`
+
+```
+ModelName.findByIdAndUpdate(id, {data}, options)
+```
+
+- `Deleting Data`
+
+```
+ModelName.findByIdAndDelete(id)
+```
