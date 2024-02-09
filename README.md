@@ -199,3 +199,17 @@ Event emitter ===> emits events ===>> event listerners ===>>calls ====>>Attached
 - Features: schemas to model data and relationships, easy data validation, simple query API, middleware ,etc;
 - `Mongoose schema` : Where we model our data, by describing the structure of the data, data values, and validation;
 - `Mongoose model` : a wrapper for the schema, providing an interface to the database for CRUD operations.
+
+### MONGOOSE MODEL
+
+```
+const ModelName = mongoose.model('ModelName', schema)
+```
+
+- `Inserting data`
+  ```
+  const data = new ModelName({
+    name: ...
+  })
+  data.save()
+  ```
