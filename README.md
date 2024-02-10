@@ -233,3 +233,7 @@ ModelName.findByIdAndUpdate(id, {data}, options)
 ```
 ModelName.findByIdAndDelete(id)
 ```
+
+API ROUTES-
+`localhost:8000/api/v1/tours?duration[lt]=5&difficulty=easy&page=2` --- filters
+`localhost:8000/api/v1/tours?sort=-duration` --- desc sorting

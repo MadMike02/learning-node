@@ -5,6 +5,14 @@ const Tour = require('../models/tourModel');
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 // );
 
+exports.aliasTopTour = async (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+
+  next();
+};
+
 exports.getAllTours = async (req, res) => {
   try {
     const queryObj = { ...req.query };
@@ -15,7 +23,37 @@ exports.getAllTours = async (req, res) => {
     //required ---  { duration: { $gte: '5' }, difficulty: 'easy' }
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
+
+    //sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      console.log(req.query.sort, sortBy);
+      query = query.sort(sortBy);
+    } else {
+      query.sort('-createdAt');
+    }
+
+    //fields limiting
+    if (req.query.fields) {
+      const field = req.query.fields.split(',').join(' ');
+      query = query.select(field);
+    } else {
+      query.select('-__v');
+    }
+
+    //pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error('Inavalid page number');
+    }
+
     // const tours = await Tour.find()
     //   .where('duration')
     //   .equals(5)
