@@ -234,6 +234,17 @@ ModelName.findByIdAndUpdate(id, {data}, options)
 ModelName.findByIdAndDelete(id)
 ```
 
-API ROUTES-
-`localhost:8000/api/v1/tours?duration[lt]=5&difficulty=easy&page=2` --- filters
-`localhost:8000/api/v1/tours?sort=-duration` --- desc sorting
+- API ROUTES-
+  `localhost:8000/api/v1/tours?duration[lt]=5&difficulty=easy&page=2` --- filters
+  `localhost:8000/api/v1/tours?sort=-duration` --- desc sorting
+
+### MONGOOSE QUERIES
+
+- ModelName.find() --- get all
+- ModelName.find({key:value}) -- search by key
+- ModelName.find({key:{$gte: 50}}) --- greater than
+- ModelName.find().select('field1 field2 -field3') -- get only some field as output and remove field 3
+- ModelName.find().skip(20).limit(10) --- limit and offset for pagination
+- ModelName.find().sort('-field1 field2') -- sort by descending field1 and if this is common than sort by ascending field2
+
+### MONGOSSE AGGREGRATION PIPELINE
