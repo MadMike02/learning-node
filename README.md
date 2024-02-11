@@ -248,3 +248,102 @@ ModelName.findByIdAndDelete(id)
 - ModelName.find().sort('-field1 field2') -- sort by descending field1 and if this is common than sort by ascending field2
 
 ### MONGOSSE AGGREGRATION PIPELINE
+
+- pipeline stages for getting desired results
+- $group -- for grouping documents by \_id field
+
+```
+$group: {
+      _id: { $toUpper: '$difficulty' },
+      numTours: { $sum: 1 },
+      numRatings: { $sum: '$ratingsQuantity' },
+      avgRating: { $avg: '$ratingsAverage' },
+      avgPrice: { $avg: '$price' },
+      minPrice: { $min: '$price' },
+      maxPrice: { $max: '$price' },
+    },
+```
+
+- $match -- for filtering results
+
+```
+
+$match: {
+  startDates: {
+    $gte: new Date(`${year}-01-01`),
+    $lte: new Date(`${year}-12-31`),
+  },
+},
+
+```
+
+- $addField -- for adding additional fields
+
+```
+{
+  $addFields: {
+    month: '$_id',
+  },
+},
+```
+
+- $sort --- for sorting output
+
+```
+{
+  $sort: { numTourStarts: 1 },
+},
+```
+
+- $unwind -- to make seprate document for each element in a array field
+
+```
+{
+  $unwind: '$startDates',
+},
+```
+
+### MONGOOSE VIRTUAL FIELDS
+
+Not exist in document
+
+```
+tourSchema.virtual('durationWeeks').get(function () {
+        return this.duration / 7;
+      });
+```
+
+### MONGOOSE MIDDLEWARE/HOOKS
+
+- All middleware can have two methods pre or post
+- There are three types of middlewares or hooks
+  - Document middleware
+    for the document fields
+    ```
+    tourSchema.pre('save', function (next) {
+      // this -- document that is currently going to save
+      this.slug = slugify(this.name, { lower: true });
+      next();
+    });
+    ```
+  - Query middleware
+    for the query object
+  ```
+  tourSchema.pre(/^find/, function (next) {
+  // this ---- will be current query
+  // /^find/ -- all the strings starting with find
+     this.find({ secretTour: { $ne: true } });
+     this.start = Date.now();
+     next();
+   });
+  ```
+  - Aggregate middleware
+    - for the aggregate functions
+    ```
+    tourSchema.pre('aggregate', function (next) {
+      // this -- aggregate method
+      console.log('aggregate', this);
+      this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+      next();
+    });
+    ```
