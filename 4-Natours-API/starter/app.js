@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const AppError = require('./utils/AppErros');
+const globalErrorHandler = require('./controllers/ErrorController');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -26,26 +28,16 @@ app.use('/api/v1/users', userRouter);
 
 //If route has not processed by any one above route then it will come here
 app.all('*', (req, res, next) => {
-  res.status(404).json({
-    status: 'fail',
-    message: `Can't find ${req.originalUrl}`,
-  });
+  // res.status(404).json({
+  //   status: 'fail',
+  //   message: `Can't find ${req.originalUrl}`,
+  // });
+
+  //if argument is passed in next then it will skip others middleware and goes staright to global error handler
+  next(new AppError(`Can't find ${req.originalUrl}`, 404));
 });
 
+//global error handle middleware
+app.use(globalErrorHandler);
+
 module.exports = app;
-// app.get('/', (req, res) => {
-//   //send string
-//   //   res.status(200).send('Hello from the server side');
-//   res.status(200).json({ message: 'Hello from the server side' });
-// });
-
-// app.post('/', (req, res) => {
-//   res.status(200).send('this is post request');
-// });
-
-// app.get('/api/v1/tours', getAllTours);
-// //:id -- required param, :id? -- optinonal param
-// app.post('/api/v1/tours', createTour);
-// app.get('/api/v1/tours/:id', getTour);
-// app.patch('/api/v1/tours/:id', generalRequest);
-// app.delete('/api/v1/tours/:id', generalRequest);
